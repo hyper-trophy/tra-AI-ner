@@ -1,46 +1,23 @@
 import * as poseDetection from '@tensorflow-models/pose-detection';
 
-// These anchor points allow the pose pointcloud to resize according to its
-// position in the input.
-const ANCHOR_POINTS = [[0, 0, 0], [0, 1, 0], [-1, 0, 0], [-1, -1, 0]];
-
-// #ffffff - White
-// #800000 - Maroon
-// #469990 - Malachite
-// #e6194b - Crimson
-// #42d4f4 - Picton Blue
-// #fabed4 - Cupid
-// #aaffc3 - Mint Green
-// #9a6324 - Kumera
-// #000075 - Navy Blue
-// #f58231 - Jaffa
-// #4363d8 - Royal Blue
-// #ffd8b1 - Caramel
-// #dcbeff - Mauve
-// #808000 - Olive
-// #ffe119 - Candlelight
-// #911eb4 - Seance
-// #bfef45 - Inchworm
-// #f032e6 - Razzle Dazzle Rose
-// #3cb44b - Chateau Green
-// #a9a9a9 - Silver Chalice
 const COLOR_PALETTE = [
     '#ffffff', '#800000', '#469990', '#e6194b', '#42d4f4', '#fabed4', '#aaffc3',
     '#9a6324', '#000075', '#f58231', '#4363d8', '#ffd8b1', '#dcbeff', '#808000',
     '#ffe119', '#911eb4', '#bfef45', '#f032e6', '#3cb44b', '#a9a9a9'
 ];
+
 export class Camera {
-    constructor() {
-        this.video = document.getElementById('video')
-        this.canvas = document.getElementById('output')
+    constructor(video, canvas) {
+        this.video = video
+        this.canvas = canvas
         this.ctx = this.canvas.getContext('2d');
+
     }
 
     /**
      * Initiate a Camera instance and wait for the camera stream to be ready.
-     * @param cameraParam From app `STATE.camera`.
      */
-    static async setupCamera() {
+    async setupCamera() {
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             throw new Error(
@@ -56,33 +33,32 @@ export class Camera {
 
         const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
 
-        const camera = new Camera();
-        camera.video.srcObject = stream;
+        this.video.srcObject = stream;
 
         await new Promise((resolve) => {
-            camera.video.onloadedmetadata = () => {
+            this.video.onloadedmetadata = () => {
                 resolve(video);
             };
         });
 
-        camera.video.play();
+        this.video.play();
 
-        const videoWidth = camera.video.videoWidth;
-        const videoHeight = camera.video.videoHeight;
+        const videoWidth = this.video.videoWidth;
+        const videoHeight = this.video.videoHeight;
+        
         // Must set below two lines, otherwise video element doesn't show.
-        camera.video.width = videoWidth;
-        camera.video.height = videoHeight;
+        this.video.width = videoWidth;
+        this.video.height = videoHeight;
 
-        camera.canvas.width = videoWidth;
-        camera.canvas.height = videoHeight;
+        this.canvas.width = videoWidth;
+        this.canvas.height = videoHeight;
         const canvasContainer = document.querySelector('.canvas-wrapper');
         canvasContainer.style = `width: ${videoWidth}px; height: ${videoHeight}px`;
 
         // Because the image from camera is mirrored, need to flip horizontally.
-        camera.ctx.translate(camera.video.videoWidth, 0);
-        camera.ctx.scale(-1, 1);
+        this.ctx.translate(this.video.videoWidth, 0);
+        this.ctx.scale(-1, 1);
 
-        return camera;
     }
 
     drawCtx() {
