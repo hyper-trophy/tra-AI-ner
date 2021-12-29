@@ -43,7 +43,7 @@ const elbowAngle = pose => {
         [rightShoulder] = pose?.keypoints?.filter(query("right_shoulder")),
         [rightWrist] = pose?.keypoints?.filter(query("right_wrist"));
 
-    getAngle([leftElbow, leftShoulder, leftWrist, rightElbow, rightShoulder, rightWrist]);
+    return getAngle([leftElbow, leftShoulder, leftWrist, rightElbow, rightShoulder, rightWrist]);
 }
 
 export default {

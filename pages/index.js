@@ -1,5 +1,5 @@
 
-import { Camera, poseDetector, startDetection } from '../Utils';
+import { Camera, poseDetector} from '../Utils';
 import { useEffect, useRef } from 'react';
 import styles from '../Styles/HomePage.module.css'
 
@@ -11,8 +11,8 @@ function HomePage() {
             // try {
                 const camera = new Camera(videoRef.current, canvasRef.current);
                 await camera.setupCamera();
-                const detector = await poseDetector()
-                startDetection(camera, detector)
+                const detector = new poseDetector(camera)
+                detector.startDetection()
             // } catch (error) {
             //     console.log(error);
             //     alert("An error occured, provide this info to developer", error)
@@ -29,6 +29,7 @@ function HomePage() {
                 className={styles.videoElement}>
             </video>
         </div>
+        <h1 id="angle">hello</h1>
     </div>
 }
 
