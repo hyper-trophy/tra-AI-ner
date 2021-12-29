@@ -35,15 +35,12 @@ const getAngle = arr => {
 }
 
 const elbowAngle = pose => {
-    const
-        [leftElbow] = pose?.keypoints?.filter(query("left_elbow")),
-        [leftShoulder] = pose?.keypoints?.filter(query("left_shoulder")),
-        [leftWrist] = pose?.keypoints?.filter(query("left_wrist")),
-        [rightElbow] = pose?.keypoints?.filter(query("right_elbow")),
-        [rightShoulder] = pose?.keypoints?.filter(query("right_shoulder")),
-        [rightWrist] = pose?.keypoints?.filter(query("right_wrist"));
 
-    return getAngle([leftElbow, leftShoulder, leftWrist, rightElbow, rightShoulder, rightWrist]);
+    const arr =
+        ['left_elbow', 'left_shoulder', 'left_wrist', 'right_elbow', 'right_shoulder', 'right_wrist']
+            .map(e => pose?.keypoints?.find(query(e)))
+
+    return getAngle(arr);
 }
 
 export default {
