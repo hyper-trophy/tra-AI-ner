@@ -7,17 +7,44 @@ export default class Detector {
 
     // let camera, detectorConfig, detector;
 
-    constructor(camera) {
+    constructor(camera, userVideo) {
         this.camera = camera
         this.detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING };
         this.detector = null;
         this.renderResult = this.renderResult.bind(this);
+        this.isUserVideo = userVideo
         // this.cnt = 5
     }
 
+    async setupDetector() {
+        try {
+            this.detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, this.detectorConfig);
+            return true
+        } catch (err) {
+            console.log(err);
+            return false
+        }
+    }
+
+    async getPoseKeypoints() {
+        if (this.isUserVideo && this.camera.video.readyState < 2) {
+            await new Promise((resolve) => {
+                this.camera.video.onloadeddata = () => {
+                    resolve(video);
+                };
+            });
+        }
+        try {
+            const [pose] = await this.detector.estimatePoses(this.camera.video);
+            return pose
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
     async renderResult() {
         let poses = null, rafId
-        if (this.camera.video.readyState < 2) {
+        if (this.isUserVideo && this.camera.video.readyState < 2) {
             await new Promise((resolve) => {
                 this.camera.video.onloadeddata = () => {
                     resolve(video);
@@ -26,8 +53,9 @@ export default class Detector {
         }
         try {
             poses = await this.detector.estimatePoses(this.camera.video);
-            document.getElementById('angle').innerText = anglesMeasurer.elbowAngle(poses[0])
-            // console.log(anglesMeasurer.elbowAngle(poses[0]))
+            let angle = Math.floor(anglesMeasurer.elbowAngle(poses[0]))
+            document.getElementById('angle').innerText = angle
+            // console.log(angle, (new Date()).getSeconds())
         } catch (error) {
             cancelAnimationFrame(rafId)
             // alert(error);
@@ -42,7 +70,6 @@ export default class Detector {
 
 
     async startDetection() {
-        this.detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, this.detectorConfig);
         this.renderResult();
     }
 }

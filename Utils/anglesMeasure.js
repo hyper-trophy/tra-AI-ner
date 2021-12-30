@@ -1,3 +1,22 @@
+const KEYPOINT_MAP = {
+    "nose": 0,
+    "left_eye": 1,
+    "right_eye": 2,
+    "left_ear": 3,
+    "right_ear": 4,
+    "left_shoulder": 5,
+    "right_shoulder": 6,
+    "left_elbow": 7,
+    "right_elbow": 8,
+    "left_wrist": 9,
+    "right_wrist": 10,
+    "left_hip": 11,
+    "right_hip": 12,
+    "left_knee": 13,
+    "right_knee": 14,
+    "left_ankle": 15,
+    "right_ankle": 16
+}
 
 const calcAngleDegrees = (x, y) => Math.atan2(y, x) * 180 / Math.PI;
 
@@ -38,11 +57,36 @@ const elbowAngle = pose => {
 
     const arr =
         ['left_elbow', 'left_shoulder', 'left_wrist', 'right_elbow', 'right_shoulder', 'right_wrist']
-            .map(e => pose?.keypoints?.find(query(e)))
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    // ['left_elbow', 'left_shoulder', 'left_wrist', 'right_elbow', 'right_shoulder', 'right_wrist']
+    //     .map(e => pose?.keypoints?.find(query(e)))
 
     return getAngle(arr);
 }
 
+const shoulderAngle = pose => {
+    const arr =
+        ['left_shoulder', 'left_hip', 'left_elbow', 'right_shoulder', 'right_hip', 'right_elbow']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return getAngle(arr);
+}
+
+const hipAngle = pose => {
+    const arr =
+        ['left_hip', 'left_shoulder', 'left_knee', 'right_hip', 'right_shoulder', 'right_knee']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return getAngle(arr);
+}
+
+const kneeAngle = pose => {
+    const arr =
+        ['left_knee', 'left_hip', 'left_ankle', 'right_knee', 'right_hip', 'right_ankle']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return getAngle(arr);
+}
+
 export default {
-    elbowAngle
+    elbowAngle,
+    shoulderAngle,
+    hipAngle
 }

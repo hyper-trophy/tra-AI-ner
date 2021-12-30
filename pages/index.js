@@ -18,13 +18,14 @@ function HomePage() {
             // try {
             const camera = new Camera(videoRef.current, canvasRef.current);
             await camera.setupCamera();
-            const detector = new poseDetector(camera)
+            const USER_VIDEO = true
+            const detector = new poseDetector(camera, USER_VIDEO)
             detector.startDetection()
 
-            // const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
-            // await idealVideo.setupCamera();
-            // const detectorIdeal = new poseDetector(idealVideo)
-            // detectorIdeal.startDetection()
+            const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
+            await idealVideo.setupCamera();
+            const detectorIdeal = new poseDetector(idealVideo, !USER_VIDEO)
+            detectorIdeal.startDetection()
 
 
             // } catch (error) {
@@ -37,16 +38,16 @@ function HomePage() {
     return <div>
         Something fucking awesome comming soon !
         <br />
-            {/* <div className="canvas-wrapper-ideal" ref={canvasContainerIdeal}>
+            <div className="canvas-wrapper-ideal" ref={canvasContainerIdeal}>
                 <canvas id="output-ideal" ref={canvasRefIdeal} ></canvas>
                 <video id="video-ideal"
                     src="/idealCurl.mkv"
                     ref={videoRefIdeal}
                     playsInline
-                    loop={true}
+                    loop
                     className={styles.videoElement}>
                 </video>
-            </div> */}
+            </div>
         <div className="canvas-wrapper" ref={canvasContainer}>
             <canvas id="output" ref={canvasRef} ></canvas>
             <video id="video" 

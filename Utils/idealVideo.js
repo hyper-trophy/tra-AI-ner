@@ -24,7 +24,7 @@ export class IdealVideo {
         await new Promise((resolve) => {
             this.video.oncanplaythrough = () => {
                 console.log("can play thro...")
-                resolve(video);
+                resolve(this.video);
             };
         });
         
@@ -53,7 +53,6 @@ export class IdealVideo {
     }
 
     drawCtx() {
-        // console.log(this.video.videoWidth)
         this.ctx.drawImage(
             this.video, 0, 0, this.video.videoWidth, this.video.videoHeight);
     }
