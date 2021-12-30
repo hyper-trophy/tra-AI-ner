@@ -20,11 +20,13 @@ function HomePage() {
             await camera.setupCamera();
             const USER_VIDEO = true
             const detector = new poseDetector(camera, USER_VIDEO)
+            await detector.setupDetector()
             detector.startDetection()
 
             const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
             await idealVideo.setupCamera();
             const detectorIdeal = new poseDetector(idealVideo, !USER_VIDEO)
+            await detectorIdeal.setupDetector();
             detectorIdeal.startDetection()
 
 
