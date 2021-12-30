@@ -1,5 +1,5 @@
 
-import { Camera, IdealVideo, poseDetector } from '../Utils';
+import { Camera, IdealVideo, poseDetector, VideoPoseMatcher } from '../Utils';
 import { useEffect, useRef } from 'react';
 import styles from '../Styles/HomePage.module.css'
 
@@ -21,13 +21,16 @@ function HomePage() {
             const USER_VIDEO = true
             const detector = new poseDetector(camera, USER_VIDEO)
             await detector.setupDetector()
-            detector.startDetection()
+            // detector.startDetection()
 
             const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
             await idealVideo.setupCamera();
             const detectorIdeal = new poseDetector(idealVideo, !USER_VIDEO)
             await detectorIdeal.setupDetector();
-            detectorIdeal.startDetection()
+
+            let poseMatcher = new VideoPoseMatcher(detectorIdeal, detector)
+            poseMatcher.startMatching();
+            // detectorIdeal.startDetection()
 
 
             // } catch (error) {

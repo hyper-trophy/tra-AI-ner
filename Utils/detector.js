@@ -30,13 +30,13 @@ export default class Detector {
         if (this.isUserVideo && this.camera.video.readyState < 2) {
             await new Promise((resolve) => {
                 this.camera.video.onloadeddata = () => {
-                    resolve(video);
+                    resolve();
                 };
             });
         }
         try {
-            const [pose] = await this.detector.estimatePoses(this.camera.video);
-            return pose
+            const poses = await this.detector.estimatePoses(this.camera.video);
+            return poses
         } catch (error) {
             console.log(error)
         }

@@ -5,7 +5,7 @@ class VideoPoseMatcher {
         this.referenceDetector = detector1
         this.userDetector = detector2
         this.startMatching = this.startMatching.bind(this)
-        this.ELBOW_THRESHOLD = 20
+        this.ELBOW_THRESHOLD = 40
         this.SHOULDER_THRESHOLD = 10
         this.BACK_THRESHOULD = 10
     }
@@ -13,39 +13,35 @@ class VideoPoseMatcher {
     async startMatching() {
         let refId
         const [
-            referencePose,
-            userPose
+            referencePoses,
+            userPoses
         ] = await Promise.all([
             this.referenceDetector.getPoseKeypoints(),
             this.userDetector.getPoseKeypoints()
         ])
 
-        const
-            referenceAngleElbow = anglesMeasure.elbowAngle(referencePose),
-            userAngleElbow = anglesMeasure.elbowAngle(userPose)
+        try {
+            const
+                referenceAngleElbow = anglesMeasure.elbowAngle(referencePoses[0]),
+                userAngleElbow = anglesMeasure.elbowAngle(userPoses[0])
 
-        if (Math.abs(userAngleElbow - referenceAngleElbow) > this.ELBOW_THRESHOLD) {
-            //render in red
+            document.getElementById('angle').innerText = Math.round(Math.abs(userAngleElbow-referenceAngleElbow))
+
             this.userDetector.camera.drawCtx();
-            if (userPose && userPose.length > 0) {
-                this.userDetector.camera.drawResults(userPose);
-            }
-            this.referenceDetector.camera.drawCtx();
-            if (referencePose && referencePose.length > 0) {
-                this.referenceDetector.camera.drawResults(referencePose);
-            }
-        } else {
-            //render in green
-            this.userDetector.camera.drawCtx();
-            if (userPose && userPose.length > 0) {
-                this.userDetector.camera.drawResults(userPose);
-            }
-            this.referenceDetector.camera.drawCtx();
-            if (referencePose && referencePose.length > 0) {
-                this.referenceDetector.camera.drawResults(referencePose);
-            }
+            if (userPoses && userPoses.length > 0) {
+                    const isCorrect = Math.abs(userAngleElbow - referenceAngleElbow) <= this.ELBOW_THRESHOLD
+                    this.userDetector.camera.drawResults(userPoses, isCorrect);
+                }
+                this.referenceDetector.camera.drawCtx();
+                if (referencePoses && referencePoses.length > 0) {
+                    this.referenceDetector.camera.drawResults(referencePoses, true);
+                }
+        } catch (err) {
+            console.error(err)
         }
 
         refId = requestAnimationFrame(this.startMatching)
     }
 }
+
+export default VideoPoseMatcher

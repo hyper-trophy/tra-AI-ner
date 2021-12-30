@@ -74,9 +74,9 @@ export class Camera {
      * Draw the keypoints and skeleton on the video.
      * @param poses A list of poses to render.
      */
-    drawResults(poses) {
+    drawResults(poses, correct) {
         for (const pose of poses) {
-            this.drawResult(pose);
+            this.drawResult(pose, correct);
         }
     }
 
@@ -84,10 +84,10 @@ export class Camera {
      * Draw the keypoints and skeleton on the video.
      * @param pose A pose with keypoints to render.
      */
-    drawResult(pose) {
+    drawResult(pose, correct) {
         if (pose.keypoints != null) {
             this.drawKeypoints(pose.keypoints);
-            this.drawSkeleton(pose.keypoints, pose.id);
+            this.drawSkeleton(pose.keypoints, correct);
         }
     }
 
@@ -134,14 +134,11 @@ export class Camera {
      * Draw the skeleton of a body on the video.
      * @param keypoints A list of keypoints.
      */
-    drawSkeleton(keypoints, poseId) {
-        // Each poseId is mapped to a color in the color palette.
-        const color = poseId != null ?
-            COLOR_PALETTE[poseId % 20] :
-            'White';
+    drawSkeleton(keypoints, correct) {
+        const color = correct?'#00f300':'#fe0100'
         this.ctx.fillStyle = color;
         this.ctx.strokeStyle = color;
-        this.ctx.lineWidth = 2;
+        this.ctx.lineWidth = 3;
 
         poseDetection.util.getAdjacentPairs('MoveNet').forEach(([
             i, j
