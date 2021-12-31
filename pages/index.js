@@ -3,6 +3,7 @@ import { Camera, IdealVideo, poseDetector, VideoPoseMatcher } from '../Utils';
 import { useEffect, useRef } from 'react';
 import styles from '../styles/HomePage.module.scss'
 import Navbar from '../components/Navbar/Navbar';
+import Layout from '../components/layout';
 
 function HomePage() {
     // const [
@@ -41,14 +42,18 @@ function HomePage() {
     //     })()
     // }, []);
 
-    return (<div>
+    return (<Layout>
+        <div>
         <div className={styles["app-container-background"]}>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='app-container'>
-                ef
+                <div className={styles["app-actions"]}> 
+                    <div>home</div>
+                </div>
             </div>
         </div>
-    </div>);
+    </div>
+    </Layout>);
 
     return <div>
         Something fucking awesome comming soon !

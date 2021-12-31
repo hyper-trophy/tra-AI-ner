@@ -1,4 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Layout from '../components/layout'
+import Navbar from '../components/Navbar/Navbar'
+let i=0; 
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -7,12 +10,15 @@ class MyDocument extends Document {
   }
 
   render() {
+    console.log("_document rendered ("+i+")")      
     return (
       <Html lang="en">
         <Head  />
         <body>
-          <Main />
-          <NextScript />
+          <Layout>
+            <Main />
+            <NextScript />
+          </Layout>
         </body>
       </Html>
     )
