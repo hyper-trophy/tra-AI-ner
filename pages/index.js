@@ -1,7 +1,7 @@
 
 import { Camera, IdealVideo, poseDetector, VideoPoseMatcher } from '../Utils';
 import { useEffect, useRef } from 'react';
-import styles from '../Styles/HomePage.module.scss'
+import styles from '../styles/HomePage.module.scss'
 import Navbar from '../components/Navbar/Navbar';
 
 function HomePage() {
