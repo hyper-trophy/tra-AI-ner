@@ -1,44 +1,54 @@
 
 import { Camera, IdealVideo, poseDetector, VideoPoseMatcher } from '../Utils';
 import { useEffect, useRef } from 'react';
-import styles from '../Styles/HomePage.module.css'
+import styles from '../Styles/HomePage.module.scss'
+import Navbar from '../components/Navbar/Navbar';
 
 function HomePage() {
-    const [
-        videoRef,
-        canvasRef,
-        canvasContainer,
-        canvasRefIdeal,
-        canvasContainerIdeal,
-        videoRefIdeal
-    ] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+    // const [
+    //     videoRef,
+    //     canvasRef,
+    //     canvasContainer,
+    //     canvasRefIdeal,
+    //     canvasContainerIdeal,
+    //     videoRefIdeal
+    // ] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
-    useEffect(() => {
-        (async () => {
-            // try {
-            const camera = new Camera(videoRef.current, canvasRef.current);
-            await camera.setupCamera();
-            const USER_VIDEO = true
-            const detector = new poseDetector(camera, USER_VIDEO)
-            await detector.setupDetector()
-            // detector.startDetection()
+    // useEffect(() => {
+    //     (async () => {
+    //         // try {
+    //         const camera = new Camera(videoRef.current, canvasRef.current);
+    //         await camera.setupCamera();
+    //         const USER_VIDEO = true
+    //         const detector = new poseDetector(camera, USER_VIDEO)
+    //         await detector.setupDetector()
+    //         // detector.startDetection()
 
-            const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
-            await idealVideo.setupCamera();
-            const detectorIdeal = new poseDetector(idealVideo, !USER_VIDEO)
-            await detectorIdeal.setupDetector();
+    //         const idealVideo = new IdealVideo(videoRefIdeal.current, canvasRefIdeal.current, videoRef.current);
+    //         await idealVideo.setupCamera();
+    //         const detectorIdeal = new poseDetector(idealVideo, !USER_VIDEO)
+    //         await detectorIdeal.setupDetector();
 
-            let poseMatcher = new VideoPoseMatcher(detectorIdeal, detector)
-            poseMatcher.startMatching();
-            // detectorIdeal.startDetection()
+    //         let poseMatcher = new VideoPoseMatcher(detectorIdeal, detector)
+    //         poseMatcher.startMatching();
+    //         // detectorIdeal.startDetection()
 
 
-            // } catch (error) {
-            //     console.log(error);
-            //     alert("An error occured, provide this info to developer", error)
-            // }
-        })()
-    }, []);
+    //         // } catch (error) {
+    //         //     console.log(error);
+    //         //     alert("An error occured, provide this info to developer", error)
+    //         // }
+    //     })()
+    // }, []);
+
+    return (<div>
+        <div className={styles["app-container-background"]}>
+            <Navbar />
+            <div className='app-container'>
+                ef
+            </div>
+        </div>
+    </div>);
 
     return <div>
         Something fucking awesome comming soon !
