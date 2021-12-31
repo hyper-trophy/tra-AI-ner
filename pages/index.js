@@ -46,10 +46,57 @@ function HomePage() {
         <div>
         <div className={styles["app-container-background"]}>
             {/* <Navbar /> */}
-            <div className='app-container'>
-                <div className={styles["app-actions"]}> 
-                    <div>home</div>
+            <div className={styles["app-container"]}>
+                <div className={styles["app-actions"]}>
+                    <div className={styles["each-action-name"]}>Gym</div>
+                    <div className={styles["each-action-choices"]}> 
+                        <ul>
+                            <li>Action 1</li>
+                            <li>Action 2</li>
+                            <li>Action 3</li>
+                            <li>Action 4</li>
+                            <li>Action 2</li>
+                            <li>Action 3</li>
+                            <li>Action 4</li>
+                            <li>Action 2</li>
+                            <li>Action 3</li>
+                            <li>Action 4</li>
+                            <li>Action 3</li>
+                            <li>Action 4</li>
+                            <li>Action 2</li>
+                            <li>Action 3</li>
+                            <li>Action 4</li>
+                        </ul>
+                    </div>
                 </div>
+
+                
+                <div className={styles["app-actions"]}>
+                    <div className={styles["each-action-name"]}>Yoga</div>
+                    <div className={styles["each-action-choices"]}> 
+                        <ul>
+                            <li>Pose 1</li>
+                            <li>Pose 2</li>
+                            <li>Pose 3</li>
+                            <li>Pose 4</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className={styles["app-actions"]}>
+                    <div className={styles["each-action-name"]}>Music</div>
+                    <div className={styles["each-action-choices"]}> 
+                        <ul>
+                            <li>Music 1</li>
+                            <li>Music 2</li>
+                            <li>Music 3</li>
+                            <li>Music 4</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
     </div>
