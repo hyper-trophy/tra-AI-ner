@@ -24,6 +24,10 @@
             background: rgb(0,0,0,0.1);
         }
     }
+    .navbar-music-player{
+        display: grid;
+        place-content: center;
+    }
     .navbar-actions{
         ul{
             list-style: none;

@@ -79,14 +79,36 @@ function HomePage() {
                             <li>Pose 2</li>
                             <li>Pose 3</li>
                             <li>Pose 4</li>
+                            <li>Pose 1</li>
+                            <li>Pose 2</li>
+                            <li>Pose 3</li>
+                            <li>Pose 4</li>
+                            <li>Pose 4</li>
+                            <li>Pose 4</li>
+                            <li>Pose 4</li>
+                            <li>Pose 4</li>
+                            <li>Pose 4</li>
                         </ul>
                     </div>
                 </div>
+                {/* <hr style={{width: "840px", border: "0.5px solid #fff"}} /> */}
 
                 <div className={styles["app-actions"]}>
                     <div className={styles["each-action-name"]}>Music</div>
-                    <div className={styles["each-action-choices"]}> 
+                    <div className={styles["each-action-choices"]+" "+styles["each-action-special"]}> 
                         <ul>
+                            <li>Music 1</li>
+                            <li>Music 2</li>
+                            <li>Music 3</li>
+                            <li>Music 4</li>
+                            <li>Music 1</li>
+                            <li>Music 2</li>
+                            <li>Music 3</li>
+                            <li>Music 4</li>
+                            <li>Music 1</li>
+                            <li>Music 2</li>
+                            <li>Music 3</li>
+                            <li>Music 4</li>
                             <li>Music 1</li>
                             <li>Music 2</li>
                             <li>Music 3</li>
