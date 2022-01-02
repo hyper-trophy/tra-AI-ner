@@ -88,5 +88,7 @@ const kneeAngle = pose => {
 export default {
     elbowAngle,
     shoulderAngle,
-    hipAngle
+    hipAngle,
+    kneeAngle,
+    KEYPOINT_MAP
 }

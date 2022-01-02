@@ -53,8 +53,8 @@ export default class Detector {
         }
         try {
             poses = await this.detector.estimatePoses(this.camera.video);
-            let angle = Math.floor(anglesMeasurer.elbowAngle(poses[0]))
-            document.getElementById('angle').innerText = angle
+            // let angle = Math.floor(anglesMeasurer.elbowAngle(poses[0]))
+            // document.getElementById('angle').innerText = angle
             // console.log(angle, (new Date()).getSeconds())
         } catch (error) {
             cancelAnimationFrame(rafId)
