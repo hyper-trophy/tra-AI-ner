@@ -1,0 +1,45 @@
+.settings-parent-container{
+    padding: 20px;
+    .settings-container{
+        background: #fff;
+        border-radius: 20px;
+        min-height: 720px;
+        max-width: 720px;
+        margin: 0 auto;
+        color: rgb(59, 59, 59);
+        padding: 10px;
+        font-weight: 400;
+        display:flex;
+
+        .settings-groups{
+            flex-shrink: 0; 
+            flex-basis: 25%; 
+            padding:6px;
+            .settings-group-header{
+
+                display: grid;
+                place-content: left;
+                padding: 2px;
+                padding-left: 0px;
+                
+                a{
+                    text-decoration: none;
+                    color: rgb(36, 36, 36);
+                    padding: 10px;
+                    padding-left: 15px;
+                    border-radius: 50px;
+
+                    &:hover{
+                        background: rgba(0, 0, 0, 0.06)
+                    }
+
+                }
+
+            }
+        }
+        .settings-groups-content{
+            flex-basis: 75%;
+
+        }
+    }
+}
