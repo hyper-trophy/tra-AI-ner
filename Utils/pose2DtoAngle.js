@@ -32,12 +32,12 @@ function _2dTo3D(p1, p2, len) {
         {
             'x': p2.x,
             'y': p2.y,
-            'z': -z
+            'z': z
         }
     ]
 }
 
-export default function poseToAngle(pose, lengths) {
+function poseToAngle(pose, lengths) {
     if(!pose) return undefined;
     const rightArm = _2dTo3D(pose.keypoints[keypoints_MAP['right_shoulder']], pose.keypoints[keypoints_MAP['right_elbow']], lengths['ARM'])
     let referenceVector = new THREE.Vector3(1, 0, 0)
@@ -99,6 +99,24 @@ export default function poseToAngle(pose, lengths) {
             }
         }
     })
-
 }
 
+function armVectors(pose, lengths){
+    if(!pose)   return false   
+    const ra = _2dTo3D(pose.keypoints[keypoints_MAP['right_shoulder']], pose.keypoints[keypoints_MAP['right_elbow']], lengths['ARM'])
+    const rfa = _2dTo3D(pose.keypoints[keypoints_MAP['right_elbow']], pose.keypoints[keypoints_MAP['right_wrist']], lengths['FOREARM']) 
+    const la = _2dTo3D(pose.keypoints[keypoints_MAP['left_shoulder']], pose.keypoints[keypoints_MAP['left_elbow']], lengths['ARM'])
+    const lfa = _2dTo3D(pose.keypoints[keypoints_MAP['left_elbow']], pose.keypoints[keypoints_MAP['left_wrist']], lengths['FOREARM'])
+
+    return ({
+        rightArm: new THREE.Vector3(ra[1].x - ra[0].x, ra[1].y - ra[0].y, ra[1].z - ra[0].z),
+        rightForeArm: new THREE.Vector3(rfa[1].x - rfa[0].x, rfa[1].y - rfa[0].y, rfa[1].z - rfa[0].z),
+        leftArm: new THREE.Vector3(la[1].x - la[0].x, la[1].y - la[0].y, la[1].z - la[0].z),
+        leftForeArm: new THREE.Vector3(lfa[1].x - lfa[0].x, lfa[1].y - lfa[0].y, lfa[1].z - lfa[0].z),
+    })
+}
+
+export default {
+    poseToAngle,
+    armVectors
+}

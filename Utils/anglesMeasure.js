@@ -54,13 +54,9 @@ const getAngle = arr => {
 }
 
 const elbowAngle = pose => {
-
     const arr =
         ['left_elbow', 'left_shoulder', 'left_wrist', 'right_elbow', 'right_shoulder', 'right_wrist']
             .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
-    // ['left_elbow', 'left_shoulder', 'left_wrist', 'right_elbow', 'right_shoulder', 'right_wrist']
-    //     .map(e => pose?.keypoints?.find(query(e)))
-
     return getAngle(arr);
 }
 
@@ -85,10 +81,75 @@ const kneeAngle = pose => {
     return getAngle(arr);
 }
 
+
+const leftElbowAngle = pose => {
+    const arr =
+        ['left_elbow', 'left_shoulder', 'left_wrist']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const leftShoulderAngle = pose => {
+    const arr =
+        ['left_shoulder', 'left_hip', 'left_elbow']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const leftHipAngle = pose => {
+    const arr =
+        ['left_hip', 'left_shoulder', 'left_knee']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const leftKneeAngle = pose => {
+    const arr =
+        ['left_knee', 'left_hip', 'left_ankle']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const rightElbowAngle = pose => {
+    const arr =
+        ['right_elbow', 'right_shoulder', 'right_wrist']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const rightShoulderAngle = pose => {
+    const arr =
+        ['right_shoulder', 'right_hip', 'right_elbow']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const rightHipAngle = pose => {
+    const arr =
+        ['right_hip', 'right_shoulder', 'right_knee']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
+const rightKneeAngle = pose => {
+    const arr =
+        ['right_knee', 'right_hip', 'right_ankle']
+            .map(e => pose?.keypoints[KEYPOINT_MAP[e]])
+    return angleBetween3points(arr[0], arr[1], arr[2]);
+}
+
 export default {
     elbowAngle,
     shoulderAngle,
     hipAngle,
     kneeAngle,
+    leftElbowAngle,
+    leftHipAngle,
+    leftShoulderAngle,
+    leftKneeAngle,
+    rightElbowAngle,
+    rightHipAngle,
+    rightKneeAngle,
+    rightShoulderAngle,
     KEYPOINT_MAP
 }

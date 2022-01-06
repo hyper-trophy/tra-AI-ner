@@ -8,8 +8,8 @@ import * as PoseDetector from '@tensorflow-models/pose-detection'
 import anglesMeasure from '../../Utils/anglesMeasure'
 import Head from 'next/head'
 import { useEffect, useRef } from 'react'
-import poseToAngle from '../../Utils/pose2DtoAngle'
-import styles from '../../Styles/HomePage.module.css'
+import pose2D from '../../Utils/pose2DtoAngle'
+import styles from '../../Styles/HomePage.module.scss'
 import { Camera, poseDetector } from '../../Utils';
 
 function FitnessGame() {
@@ -25,7 +25,7 @@ function FitnessGame() {
 
     useEffect(() => {
         (async () => {
-            let scene, renderer, camera, model, skeleton, clock, controls, pose, lengths, angles
+            let scene, renderer, camera, model, skeleton, clock, controls, pose, lengths, angles, vs, up, lk, rightArm, rightForeArm, leftArm, leftForeArm
             // let detector = await PoseDetector.createDetector(PoseDetector.SupportedModels.MoveNet, { modelType: PoseDetector.movenet.modelType.SINGLEPOSE_LIGHTNING })
             // let video = document.getElementById('video')
 
@@ -53,42 +53,42 @@ function FitnessGame() {
 
             // video.play();
 
-            // const mycamera = new Camera(videoRef.current, canvasRef.current);
-            // await mycamera.setupCamera();
-            // const USER_VIDEO = true
-            // const detector = new poseDetector(mycamera, USER_VIDEO)
-            // await detector.setupDetector()
-            // detector.startDetection()
+            const mycamera = new Camera(videoRef.current, canvasRef.current);
+            await mycamera.setupCamera();
+            const USER_VIDEO = true
+            const detector = new poseDetector(mycamera, USER_VIDEO)
+            await detector.setupDetector()
+            detector.startDetection()
 
-            // while (true) {
-            //     try {
-            //         // pose = await detector.estimatePoses(video);
-            //         pose = await detector.getPoseKeypoints()
-            //         let angle = anglesMeasure.shoulderAngle(pose[0]);
-            //         // console.log(angle)
-            //         document.getElementById('info').innerText = angle
-            //         if (angle > 260 && angle < 290) {
-            //             let
-            //                 shoulder = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_shoulder']],
-            //                 wrist = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_wrist']],
-            //                 elbow = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_elbow']]
+            while (true) {
+                try {
+                    // pose = await detector.estimatePoses(video);
+                    pose = await detector.getPoseKeypoints()
+                    let angle = anglesMeasure.shoulderAngle(pose[0]);
+                    // console.log(angle)
+                    document.getElementById('info').innerText = angle
+                    if (angle > 260 && angle < 290) {
+                        let
+                            shoulder = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_shoulder']],
+                            wrist = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_wrist']],
+                            elbow = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_elbow']]
 
-            //             let ARM = Math.sqrt(Math.pow(shoulder.x - elbow.x, 2) + Math.pow(shoulder.y - elbow.y, 2))
-            //             let FOREARM = Math.sqrt(Math.pow(elbow.x - wrist.x, 2) + Math.pow(elbow.y - wrist.y, 2))
-            //             lengths = {
-            //                 ARM,
-            //                 FOREARM
-            //             }
-            //             console.log("len : ", lengths, "\nshoulder : ", shoulder, "\nwridt : ", wrist, "\nelbow : ", elbow)
-            //             init();
-            //             break;
-            //         }
-            //     } catch (error) {
-            //         console.log(error)
-            //     }
-            //     await new Promise(r => setTimeout(r, 100))
-            // }
-            init()
+                        let ARM = Math.sqrt(Math.pow(shoulder.x - elbow.x, 2) + Math.pow(shoulder.y - elbow.y, 2))
+                        let FOREARM = Math.sqrt(Math.pow(elbow.x - wrist.x, 2) + Math.pow(elbow.y - wrist.y, 2))
+                        lengths = {
+                            ARM,
+                            FOREARM
+                        }
+                        console.log("len : ", lengths, "\nshoulder : ", shoulder, "\nwridt : ", wrist, "\nelbow : ", elbow)
+                        init();
+                        break;
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+                await new Promise(r => setTimeout(r, 100))
+            }
+            // init()
 
             function init() {
                 THREE.VertexNormalsHelper = VertexNormalsHelper
@@ -129,7 +129,7 @@ function FitnessGame() {
                 scene.add(dirLight);
 
 
-                const normalTexture = new THREE.TextureLoader().load("/starsHD.jpg");
+                const normalTexture = new THREE.TextureLoader().load("/normalMap.png");
                 const mesh = new THREE.Mesh(new THREE.SphereGeometry(30, 128, 128), new THREE.MeshPhongMaterial({ color: 0xcb9766, normalMap: normalTexture }));
                 mesh.translateY(-30)
                 mesh.rotation.x = - Math.PI / 2;
@@ -163,7 +163,10 @@ function FitnessGame() {
 
                     skeleton.visible = true;
                     scene.add(skeleton);
-
+                    rightArm = skeleton.bones[24]
+                    rightForeArm = skeleton.bones[25]
+                    leftArm = skeleton.bones[7]
+                    leftForeArm = skeleton.bones[8]
                     animate();
 
                 });
@@ -184,9 +187,44 @@ function FitnessGame() {
             const resetRotation = () =>
                 [7, 8, 24, 25].map(e => skeleton.bones[e].setRotationFromEuler(new THREE.Euler(0, 0, 0)))
 
+            const reverseUp = (bone) => {
+                bone.up.x = -bone.up.x
+                bone.up.y = -bone.up.y
+                bone.up.z = -bone.up.z
+            }
+
             async function animate() {
-                // pose = await detector.getPoseKeypoints();
-                // angles = poseToAngle(pose[0], lengths)
+                pose = await detector.getPoseKeypoints();
+                vs = pose2D.armVectors(pose[0], lengths);
+
+                if (pose[0] && vs) {
+                    up = vs.rightArm.clone().cross(vs.rightForeArm.clone());
+                    lk = up.clone().cross(vs.rightArm.clone());
+                    rightArm.up = vs.rightArm
+                    reverseUp(rightArm)
+                    rightArm.lookAt(lk.clone().multiplyScalar(100))
+
+
+                    lk = up.clone().cross(vs.rightForeArm.clone());
+                    rightForeArm.up = vs.rightForeArm
+                    reverseUp(rightForeArm)
+                    rightForeArm.lookAt(lk.clone().multiplyScalar(100))
+
+
+                    up = vs.leftArm.clone().cross(vs.leftForeArm.clone());
+                    lk = up.clone().cross(vs.leftArm.clone());
+                    leftArm.up = vs.leftArm
+                    reverseUp(leftArm)
+                    leftArm.lookAt(lk.clone().multiplyScalar(100))
+
+
+                    lk = up.clone().cross(vs.leftForeArm.clone());
+                    leftForeArm.up = vs.leftForeArm
+                    reverseUp(leftForeArm)
+                    leftForeArm.lookAt(lk.clone().multiplyScalar(100))
+                }
+
+
                 // // console.log(angles)
                 // if (angles && skeleton) {
                 //     resetRotation();
@@ -197,11 +235,12 @@ function FitnessGame() {
                 //     skeleton.bones[8].rotation.z = -(angles.left.foreArm.theta - skeleton.bones[7].rotation.z)
 
                 //     skeleton.bones[24].rotation.x = angles.right.arm.phi
-                //     skeleton.bones[24].rotation.z = angles.right.arm.theta
+                //     skeleton.bones[24].rotation.z = -angles.right.arm.theta
 
                 //     skeleton.bones[25].rotation.x = -(angles.right.foreArm.phi - skeleton.bones[24].rotation.x)
                 //     skeleton.bones[25].rotation.z = (angles.right.foreArm.theta - skeleton.bones[24].rotation.z)
                 // }
+                arrowHelper.setDirection(skeleton.bones[24].getWorldDirection(new THREE.Vector3()))
                 controls.update()
                 renderer.render(scene, camera);
                 requestAnimationFrame(animate);
@@ -245,13 +284,13 @@ function FitnessGame() {
             {/* <video id="video"
                 playsInline loop autoPlay>
             </video> */}
-            {/* <div className="canvas-wrapper" ref={canvasContainer}>
+            <div className="canvas-wrapper" ref={canvasContainer}>
                 <canvas id="output" ref={canvasRef} ></canvas>
                 <video id="video"
                     ref={videoRef} playsInline loop autoPlay
                     className={styles.videoElement}>
                 </video>
-            </div> */}
+            </div>
             <h1 id="info">hello</h1>
             <div id="container"></div>
         </>
