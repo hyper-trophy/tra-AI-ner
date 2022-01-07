@@ -35,14 +35,13 @@
             li{
                 
                 padding:10px;
-                padding-left: 20px;
-                padding-right: 20px;
                 transition-duration: 0.2s;
                 background: rgb(0,0,0,0.1);
-                border-radius: 50px;
-                margin-left: 10px;
-                margin-right: 10px;
+                border-radius: 5px;
+                margin-left: 5px;
+                margin-right: 5px;
                 cursor: pointer;
+            
             }
             li a{
                 
@@ -51,6 +50,7 @@
             }
             li:hover, li:active, li:focus{
                 background: rgb(255,255,255,0.3);
+                box-shadow: 0 0 10px rgb(134, 134, 134);
             }
         }
     }
