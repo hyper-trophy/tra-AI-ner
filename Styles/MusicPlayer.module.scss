@@ -1,0 +1,32 @@
+.player-container{
+    .player-main-container{
+        .player-title{
+            max-width: 320px;
+            cursor: pointer;
+        }
+        .player-actions{
+            display: flex;
+            .player-actions-previous{
+
+                font-size: 32px;
+                cursor: pointer;
+                width: 100%;
+                text-align: center;
+                
+            }
+            .player-actions-pause-play{
+                cursor: pointer;
+                font-size: 32px;
+                width: 100%;
+                text-align: center;
+            }
+            .player-actions-previous{
+
+                cursor: pointer;
+                width: 100%;
+                font-size: 32px;
+                text-align: center;
+            }
+        }   
+    }
+}

@@ -7,4 +7,4 @@ function ProfilePage(){
         </div>
     </Layout>
 }
-export default ProfilePage
+export default ProfilePage;

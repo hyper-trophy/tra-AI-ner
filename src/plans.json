@@ -1,0 +1,55 @@
+{
+    "plans": [
+      {
+        "id": 1,
+        "name": "Bck SQUAT",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      },
+      {
+        "id": 2,
+        "name": "SQUAT WALK-OUT",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      },
+      {
+        "id": 3,
+        "name": "GLUTE HAM RAISE",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      },
+      {
+        "id": 4,
+        "name": "HELMS ROW",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      },
+
+      {
+        "id": 5,
+        "name": "HAMMER CURL",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      },
+
+      {
+        "id": 6,
+        "name": "WEIGHTED PULL UP",
+        "warm_up_sets": "Doe",
+        "working_sets": "johndoe@abc.com",
+        "reps": "Male"
+      }
+
+
+      
+
+
+
+
+    ]
+  }
