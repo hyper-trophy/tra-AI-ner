@@ -6,6 +6,12 @@ import Navbar from '../components/Navbar/Navbar';
 import Layout from '../components/layout';
 import firebaseobj from '../firebase/firebase.main';
 import firebaseAdmin from "./../firebase-admin/firebase-admin.main";
+import Head from 'next/head'
+import Link from 'next/link'
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 function HomePage() {
     console.log("hello")
@@ -45,11 +51,51 @@ function HomePage() {
     //     })()
     // }, []);
 
+
+    const plans=[
+        {
+            label:'Beginner'
+        },
+        {
+            label:'Intermediate'
+        },
+        {
+            label:'Advanced'
+        }
+    ];
     return (<Layout>
         <div>
+            <Head>
+                <Link rel='manifest' href= 'manifest.json'/>
+            </Head>
         <div className={styles["app-container-background"]}>
             {/* <Navbar /> */}
             <div className={styles["app-container"]}>
+
+            <div className={styles["app-actions"]}>
+                    <div className={styles["each-action-name"]}>Tasks</div>
+                   
+                    <Grid container spacing={20}>
+                     <Grid item xs={4}>
+                   <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={plans}
+                    sx={{ width: 250}}
+                    renderInput={(params) => <TextField {...params} label="Plans" />}
+                    />
+                    </Grid>
+                    <Grid item xs={4}>
+                                    
+                    <Button size="large" variant="contained" color="success" href="./plans">
+                    Continue
+                    </Button>
+
+                    </Grid>
+                    </Grid>                     
+                    
+                </div>
+                
                 <div className={styles["app-actions"]}>
                     <div className={styles["each-action-name"]}>Gym</div>
                     <div className={styles["each-action-choices"]}> 
@@ -57,18 +103,7 @@ function HomePage() {
                             <li>Action 1</li>
                             <li>Action 2</li>
                             <li>Action 3</li>
-                            <li>Action 4</li>
-                            <li>Action 2</li>
-                            <li>Action 3</li>
-                            <li>Action 4</li>
-                            <li>Action 2</li>
-                            <li>Action 3</li>
-                            <li>Action 4</li>
-                            <li>Action 3</li>
-                            <li>Action 4</li>
-                            <li>Action 2</li>
-                            <li>Action 3</li>
-                            <li>Action 4</li>
+                            <li>Action 4</li>                            
                         </ul>
                     </div>
                 </div>
@@ -82,15 +117,6 @@ function HomePage() {
                             <li>Pose 2</li>
                             <li>Pose 3</li>
                             <li>Pose 4</li>
-                            <li>Pose 1</li>
-                            <li>Pose 2</li>
-                            <li>Pose 3</li>
-                            <li>Pose 4</li>
-                            <li>Pose 4</li>
-                            <li>Pose 4</li>
-                            <li>Pose 4</li>
-                            <li>Pose 4</li>
-                            <li>Pose 4</li>
                         </ul>
                     </div>
                 </div>
@@ -100,22 +126,7 @@ function HomePage() {
                     <div className={styles["each-action-name"]}>Music</div>
                     <div className={styles["each-action-choices"]+" "+styles["each-action-special"]}> 
                         <ul>
-                            <li>Music 1</li>
-                            <li>Music 2</li>
-                            <li>Music 3</li>
-                            <li>Music 4</li>
-                            <li>Music 1</li>
-                            <li>Music 2</li>
-                            <li>Music 3</li>
-                            <li>Music 4</li>
-                            <li>Music 1</li>
-                            <li>Music 2</li>
-                            <li>Music 3</li>
-                            <li>Music 4</li>
-                            <li>Music 1</li>
-                            <li>Music 2</li>
-                            <li>Music 3</li>
-                            <li>Music 4</li>
+                            <li>Music 1</li>                            
                         </ul>
                     </div>
                 </div>
@@ -128,7 +139,7 @@ function HomePage() {
     </Layout>);
 
     return <div>
-        Something fucking awesome comming soon !
+        
         <br />
             <div className="canvas-wrapper-ideal" ref={canvasContainerIdeal}>
                 <canvas id="output-ideal" ref={canvasRefIdeal} ></canvas>
