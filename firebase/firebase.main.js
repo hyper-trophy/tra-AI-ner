@@ -27,6 +27,6 @@ if(!getApps().length){
 
 const db = getFirestore(app)
 const auth = getAuth(app)
-const firebaseobj = {db,auth};
+const firebaseobj = {db,auth,app};
 // console.log(firebaseobj)
 export default firebaseobj;

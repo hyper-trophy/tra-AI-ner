@@ -38,17 +38,17 @@ const Navbar = ()=>{
         <div className={styles["navbar-actions"]}>
             <ul>
                 <li>
-                    <Link href="/gym"><FitnessCenterIcon /></Link>
+                    <Link href="/gym">gym</Link>
                 </li>
                 <li>
-                    <Link href="/yoga"><SelfImprovementIcon /></Link>
+                    <Link href="/yoga">yoga</Link>
                 </li>
                 <li>
-                    <Link href="/timer"><TimerOutlinedIcon /></Link>
+                    <Link href="/timer">timer</Link>
                 </li>
-                <li><Link href="/music"><MusicNoteOutlinedIcon /></Link></li>
-                <li><Link href="/notepad"><NoteAltOutlinedIcon /></Link></li>
-                <li> {contextValue.appState.isLoggedIn == true ? <Link href="/profile">{contextValue.appState.userState.email.split("@")[0]}</Link> : <Link href="/login">Log In / Sign Up</Link> }  </li>
+                <li><Link href="/music">music</Link></li>
+                <li><Link href="/notepad">notepad</Link></li>
+                <li> {contextValue.appState.isLoggedIn == true ? <Link href="/profile">{contextValue.appState.userState.email.split("@")[0]}</Link> : <Link href="/login">Log In</Link> }  </li>
                 {contextValue.appState.isLoggedIn == true ? <li onClick={()=>{
                     contextValue.appState.userLogout()
                 }}>Logout</li> : "" }

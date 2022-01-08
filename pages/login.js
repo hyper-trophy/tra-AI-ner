@@ -27,6 +27,7 @@ import Router from "next/router";
                 let db = firebaseobj.db;
                 await setDoc(doc(db, "users", user.uid), JSON.parse(JSON.stringify(user)), { merge: true }); //addDoc(collection(db, "users"), JSON.parse(JSON.stringify(user)));
                 contextValue.appState.setUserState(user, true);
+                console.log("user logged in setUserState called")
                 Router.push("/")
               } catch (e) {
                 console.error("Error adding document: ", e);

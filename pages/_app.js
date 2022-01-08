@@ -4,7 +4,8 @@ import Layout from '../components/layout'
 import Navbar from '../components/Navbar/Navbar'
 import AppContext from "../contexts/contexts";
 import { signOut } from "firebase/auth";
-import {auth} from "./../firebase/firebase.main"
+import {auth,app} from "./../firebase/firebase.main"
+import { getAuth } from "firebase/auth";
 import dynamic from "next/dynamic";
 import '../styles/index.css'
 import { Router } from "next/router";
@@ -23,8 +24,7 @@ function MyApp({ Component, pageProps }) {
   const [appState,setAppState] = useState(defaultValue);  
     
   useEffect(() => {
-    if(!auth) return;
-
+    let auth = getAuth(app)
     
     console.log("_app => "+auth)
     // redundant code is added because conditionally I needed to use 2 times setAppState that's why Hardcoded for if and else blocks
