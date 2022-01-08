@@ -2,6 +2,7 @@ import { Camera, poseDetector} from '../../../Utils';
 import YogaPoseMatcher from '../../../Utils/PoseMatcher/YogaAsan'
 import asanMatcher from '../../../Utils/PoseMatcher/YogaAsan/asanChecker'
 // import curlChecker from '../../../Utils/PoseMatcher/Exercise/curl'
+import Image from 'next/image'
 import { useEffect, useRef } from 'react';
 import styles from '../../../Styles/HomePage.module.scss'
 
@@ -42,6 +43,7 @@ function HomePage() {
     return <div>
         Yoga asan 1 !
         <br />
+        <Image src='/asans/asan1.png' width={500} height={300}/>
         <div className="canvas-wrapper" ref={canvasContainer}>
             <canvas id="output" ref={canvasRef} ></canvas>
             <video id="video" 

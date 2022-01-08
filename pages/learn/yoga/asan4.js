@@ -1,8 +1,9 @@
-import { Camera, poseDetector} from '../../../Utils';
+import { Camera, poseDetector } from '../../../Utils';
 import YogaPoseMatcher from '../../../Utils/PoseMatcher/YogaAsan'
 import asanMatcher from '../../../Utils/PoseMatcher/YogaAsan/asanChecker'
 // import curlChecker from '../../../Utils/PoseMatcher/Exercise/curl'
 import { useEffect, useRef } from 'react';
+import Image from 'next/image'
 import styles from '../../../Styles/HomePage.module.scss'
 
 function HomePage() {
@@ -24,7 +25,7 @@ function HomePage() {
             const USER_VIDEO = true
             const detector = new poseDetector(camera, USER_VIDEO)
             await detector.setupDetector()
-            
+
             // detector.startDetection()
 
             let poseMatcher = new YogaPoseMatcher(detector, asanMatcher.asan4Matcher, suggestionRef)
@@ -42,10 +43,11 @@ function HomePage() {
     return <div>
         Yoga asan 3 !
         <br />
+        <Image src='/asans/asan4.jpg' width={500} height={300} />
         <div className="canvas-wrapper" ref={canvasContainer}>
             <canvas id="output" ref={canvasRef} ></canvas>
-            <video id="video" 
-            ref={videoRef} playsInline loop autoPlay
+            <video id="video"
+                ref={videoRef} playsInline loop autoPlay
                 className={styles.videoElement}>
             </video>
         </div>

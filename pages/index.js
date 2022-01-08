@@ -6,8 +6,10 @@ import Navbar from '../components/Navbar/Navbar';
 import Layout from '../components/layout';
 import firebaseobj from '../firebase/firebase.main';
 import firebaseAdmin from "./../firebase-admin/firebase-admin.main";
+import {useRouter} from 'next/router'
 
 function HomePage() {
+    const Router = useRouter()
     console.log("hello")
     // const [
     //     videoRef,
@@ -54,7 +56,7 @@ function HomePage() {
                     <div className={styles["each-action-name"]}>Gym</div>
                     <div className={styles["each-action-choices"]}> 
                         <ul>
-                            <li>Action 1</li>
+                            <li onClick={()=>Router.push("/learn/exercise/curl")}>Bicep Curl</li>
                             <li>Action 2</li>
                             <li>Action 3</li>
                             <li>Action 4</li>
@@ -78,10 +80,10 @@ function HomePage() {
                     <div className={styles["each-action-name"]}>Yoga</div>
                     <div className={styles["each-action-choices"]}> 
                         <ul>
-                            <li>Pose 1</li>
-                            <li>Pose 2</li>
-                            <li>Pose 3</li>
-                            <li>Pose 4</li>
+                            <li onClick={()=>Router.push("/learn/yoga/asan1")}>Asan 1</li>
+                            <li onClick={()=>Router.push("/learn/yoga/asan2")}>Asan 2</li>
+                            <li onClick={()=>Router.push("/learn/yoga/asan3")}> Pose 3</li>
+                            <li onClick={()=>Router.push("/learn/yoga/asan4")}>Pose 4</li>
                             <li>Pose 1</li>
                             <li>Pose 2</li>
                             <li>Pose 3</li>

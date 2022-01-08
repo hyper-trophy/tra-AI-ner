@@ -11,16 +11,16 @@ class YogaPoseMatcher {
     async startMatching() {
         let refId
         const userPoses = await this.userDetector.getPoseKeypoints()
-        console.log("angles :",
-            anglesMeasure.leftElbowAngle(userPoses[0]),
-            anglesMeasure.leftShoulderAngle(userPoses[0]),
-            anglesMeasure.leftHipAngle(userPoses[0]),
-            anglesMeasure.leftKneeAngle(userPoses[0]),
-            anglesMeasure.rightElbowAngle(userPoses[0]),
-            anglesMeasure.rightShoulderAngle(userPoses[0]),
-            anglesMeasure.rightHipAngle(userPoses[0]),
-            anglesMeasure.rightKneeAngle(userPoses[0]),
-        )
+        // console.log("angles :",
+        //     anglesMeasure.leftElbowAngle(userPoses[0]),
+        //     anglesMeasure.leftShoulderAngle(userPoses[0]),
+        //     anglesMeasure.leftHipAngle(userPoses[0]),
+        //     anglesMeasure.leftKneeAngle(userPoses[0]),
+        //     anglesMeasure.rightElbowAngle(userPoses[0]),
+        //     anglesMeasure.rightShoulderAngle(userPoses[0]),
+        //     anglesMeasure.rightHipAngle(userPoses[0]),
+        //     anglesMeasure.rightKneeAngle(userPoses[0]),
+        // )
 
         try {
             this.userDetector.camera.drawCtx();
