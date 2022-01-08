@@ -4,8 +4,11 @@ import { useEffect, useRef } from 'react';
 import styles from '../styles/HomePage.module.scss'
 import Navbar from '../components/Navbar/Navbar';
 import Layout from '../components/layout';
+import firebaseobj from '../firebase/firebase.main';
+import firebaseAdmin from "./../firebase-admin/firebase-admin.main";
 
 function HomePage() {
+    console.log("hello")
     // const [
     //     videoRef,
     //     canvasRef,
@@ -147,5 +150,36 @@ function HomePage() {
         <h1 id="angle">hello</h1>
     </div>
 }
+export async function getServerSideProps(context) {
+    console.log("POA:"+ Object.keys(firebaseAdmin))
+    return {
+      props: {}, // will be passed to the page component as props
+    }
+  }
 
-export default HomePage
+export default HomePage;
+
+/*
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC8qKwVcQV8eghtiQxF46b4V5miWMNtppo",
+  authDomain: "trainer-83174.firebaseapp.com",
+  projectId: "trainer-83174",
+  storageBucket: "trainer-83174.appspot.com",
+  messagingSenderId: "402436005264",
+  appId: "1:402436005264:web:663d5bebaa06108e296715",
+  measurementId: "G-0R7BSRL9XT"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+*/
