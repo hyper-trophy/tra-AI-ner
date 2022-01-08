@@ -67,9 +67,7 @@ function HomePage() {
     ];
     return (<Layout>
         <div>
-            <Head>
-                <Link rel='manifest' href= 'manifest.json'/>
-            </Head>
+            
         <div className={styles["app-container-background"]}>
             {/* <Navbar /> */}
             <div className={styles["app-container"]}>
