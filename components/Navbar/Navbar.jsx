@@ -33,7 +33,7 @@ const Navbar = ()=>{
             <Link href="/">workout</Link>
         </div>
         <div className={styles["navbar-music-player"]}>
-            {/* <MusicPlayer /> */}
+            <MusicPlayer />
         </div>
         <div className={styles["navbar-actions"]}>
             <ul>

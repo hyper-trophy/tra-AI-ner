@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
   const [appState,setAppState] = useState(defaultValue);  
     
   useEffect(() => {
+    
     let auth = getAuth(app)
     
     console.log("_app => "+auth)
