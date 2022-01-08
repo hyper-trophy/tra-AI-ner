@@ -2,6 +2,7 @@ import {initializeApp, getApps} from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -13,6 +14,7 @@ const clientCredentials = {
 };
 // const firebaseobj
 const app = undefined;
+console.log(getApps().length+"=>")
 if(!getApps().length){
   app = initializeApp(clientCredentials);
 }else{

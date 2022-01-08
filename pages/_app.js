@@ -3,24 +3,30 @@ import { useContext, useState, useEffect } from "react";
 import Layout from '../components/layout'
 import Navbar from '../components/Navbar/Navbar'
 import AppContext from "../contexts/contexts";
-import { getAuth,signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import {auth} from "./../firebase/firebase.main"
 import dynamic from "next/dynamic";
 import '../styles/index.css'
 import { Router } from "next/router";
+import {getApps } from "firebase/app"
 function MyApp({ Component, pageProps }) {
     // console.log("_app rendered") 
     // const { status, user } = useContext(AuthContext);
+
     const defaultValue = {
       isLoggedIn: false,
       userState: {},
       setUserState: ()=>{},
       userLogout: ()=>{}
     }
-  let auth = getAuth();
+    // console.log(getApps())
   const [appState,setAppState] = useState(defaultValue);  
     
   useEffect(() => {
+    if(!auth) return;
+
     
+    console.log("_app => "+auth)
     // redundant code is added because conditionally I needed to use 2 times setAppState that's why Hardcoded for if and else blocks
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -106,7 +112,8 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default dynamic(() => Promise.resolve(MyApp), {
-  ssr: false,
-});
-// export default MyApp
+// export default dynamic(() => Promise.resolve(MyApp), {
+//   ssr: false,
+// });
+
+export default MyApp
