@@ -20,53 +20,56 @@ function FitnessGame() {
         canvasRefIdeal,
         canvasContainerIdeal,
         videoRefIdeal,
-        suggestionRef
-    ] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+        suggestionRef,
+        gameOverRef
+    ] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
     useEffect(() => {
         (async () => {
-            let scene, renderer, camera, model, skeleton, clock, controls, pose, lengths, angles, vs, up, lk, rightArm, rightForeArm, leftArm, leftForeArm
-            // let detector = await PoseDetector.createDetector(PoseDetector.SupportedModels.MoveNet, { modelType: PoseDetector.movenet.modelType.SINGLEPOSE_LIGHTNING })
-            // let video = document.getElementById('video')
+            let scene, renderer, camera, model, skeleton, clock, controls, pose, lengths, angles,
+                vs, up, lk, rightArm, rightForeArm, leftArm, leftForeArm, obstacles = [], spawner,
+                rightFin, leftFin, refId, stopped = false
+            let detector = await PoseDetector.createDetector(PoseDetector.SupportedModels.MoveNet, { modelType: PoseDetector.movenet.modelType.SINGLEPOSE_LIGHTNING })
+            let video = document.getElementById('video')
 
-            // if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            //     throw new Error(
-            //         'Browser API navigator.mediaDevices.getUserMedia not available');
-            // }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error(
+                    'Browser API navigator.mediaDevices.getUserMedia not available');
+            }
 
-            // const videoConfig = {
-            //     'audio': false,
-            //     'video': {
-            //         facingMode: 'user',
-            //     }
-            // };
+            const videoConfig = {
+                'audio': false,
+                'video': {
+                    facingMode: 'user',
+                }
+            };
 
-            // const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
+            const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
 
-            // video.srcObject = stream;
+            video.srcObject = stream;
 
-            // await new Promise((resolve) => {
-            //     video.onloadedmetadata = () => {
-            //         resolve(video);
-            //     };
-            // });
+            await new Promise((resolve) => {
+                video.onloadedmetadata = () => {
+                    resolve(video);
+                };
+            });
 
-            // video.play();
+            video.play();
 
-            const mycamera = new Camera(videoRef.current, canvasRef.current);
-            await mycamera.setupCamera();
-            const USER_VIDEO = true
-            const detector = new poseDetector(mycamera, USER_VIDEO)
-            await detector.setupDetector()
-            detector.startDetection()
+            // const mycamera = new Camera(videoRef.current, canvasRef.current);
+            // await mycamera.setupCamera();
+            // const USER_VIDEO = true
+            // const detector = new poseDetector(mycamera, USER_VIDEO)
+            // await detector.setupDetector()
+            // detector.startDetection()
 
             while (true) {
                 try {
-                    // pose = await detector.estimatePoses(video);
-                    pose = await detector.getPoseKeypoints()
+                    pose = await detector.estimatePoses(video);
+                    // pose = await detector.getPoseKeypoints()
                     let angle = anglesMeasure.shoulderAngle(pose[0]);
                     // console.log(angle)
-                    document.getElementById('info').innerText = angle
+                    // document.getElementById('info').innerText = angle
                     if (angle > 260 && angle < 290) {
                         let
                             shoulder = pose[0].keypoints[anglesMeasure.KEYPOINT_MAP['right_shoulder']],
@@ -79,6 +82,10 @@ function FitnessGame() {
                             ARM,
                             FOREARM
                         }
+                        video.style.position = "absolute"
+                        video.style.transform = `scale(0.5)`
+                        video.style.bottom = `-55px`
+                        video.style.right = `-105px`
                         console.log("len : ", lengths, "\nshoulder : ", shoulder, "\nwridt : ", wrist, "\nelbow : ", elbow)
                         init();
                         break;
@@ -88,7 +95,113 @@ function FitnessGame() {
                 }
                 await new Promise(r => setTimeout(r, 100))
             }
+
             // init()
+
+            function IntervalTimer(callback, interval) {
+                var timerId, startTime, remaining = 0;
+                var state = 0; //  0 = idle, 1 = running, 2 = paused, 3= resumed
+
+                this.pause = function () {
+                    if (state != 1) return;
+
+                    remaining = interval - (new Date() - startTime);
+                    window.clearInterval(timerId);
+                    state = 2;
+                };
+
+                this.resume = function () {
+                    if (state != 2) return;
+
+                    state = 3;
+                    window.setTimeout(this.timeoutCallback, remaining);
+                };
+
+                this.timeoutCallback = function () {
+                    if (state != 3) return;
+
+                    callback();
+
+                    startTime = new Date();
+                    timerId = window.setInterval(callback, interval);
+                    state = 1;
+                };
+
+                startTime = new Date();
+                timerId = window.setInterval(callback, interval);
+                state = 1;
+            }
+
+            document.onkeyup = (e) => {
+                if (e.code === 'Space' && stopped == true) {
+                    gameOverRef.current.style.visibility = "hidden" 
+                    spawner.resume()
+                    stopped = false;
+                    // animate()
+                }
+            }
+
+            function spawnObjstacles(params) {
+                const geometry = new THREE.SphereGeometry(0.5, 16, 16);
+                const material = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+                const sphere = new THREE.Mesh(geometry, material);
+                sphere.position.set(THREE.MathUtils.randFloat(-10, 10), THREE.MathUtils.randFloat(-5, 5), -40)
+                // sphere.position.set(0, 0, -10)
+                scene.add(sphere);
+                sphere.visible = true
+                console.log("obs spawned")
+                obstacles.push({
+                    sphere,
+                    timeStamp: clock.getElapsedTime(),
+                    final: new THREE.Vector3(THREE.MathUtils.randFloat(-0.03, 0.03), THREE.MathUtils.randFloat(0.1, 0.2), 0.1)
+                })
+            }
+
+            function updateObstacles() {
+                const currTime = clock.getElapsedTime()
+                obstacles.map(ob => {
+                    const obTime = ob.timeStamp
+                    const elapsed = currTime - obTime
+                    const scaleFactor = (25 - elapsed) / 25
+                    const curr = ob.sphere.position, fin = ob.final
+                    // const pos = ob.sphere.position.clone().sub(ob.final.clone()).multiplyScalar(scaleFactor)
+                    ob.sphere.position.set((curr.x) * scaleFactor + fin.x, (curr.y) * scaleFactor + fin.y, (curr.z) * scaleFactor + fin.z)
+                    // ob.sphere.position.multiplyScalar(scaleFactor)
+                })
+            }
+
+            function checkCollision() {
+                let
+                    rightFinPos = new THREE.Vector3(),
+                    leftFinPos = new THREE.Vector3(),
+                    obs = obstacles[0],
+                    obsPos = obs?.sphere.position.clone(),
+                    obsRadius = obs?.sphere.geometry.parameters.radius
+
+                rightFin.getWorldPosition(rightFinPos)
+                leftFin.getWorldPosition(leftFinPos)
+
+                const
+                    rightLen = obsPos?.clone().sub(rightFinPos).length(),
+                    leftLen = obsPos?.clone().sub(leftFinPos).length()
+
+                if (obs && (rightLen < obsRadius + 0.1 || leftLen < obsRadius + 0.1)) {
+                    console.log("obstacle diappeared")
+                    scene.remove(obs.sphere)
+                    console.log(obstacles)
+                    obstacles = obstacles.slice(1)
+                    console.log(obstacles)
+                } else if (obs && obsPos.z >= 0.1) {
+                    console.log("in gameover", refId)
+                    gameOverRef.current.style.visibility = "visible"
+                    obstacles.map(ob => scene.remove(ob?.sphere))
+                    obstacles = []
+                    spawner.pause()
+                    // window.cancelAnimationFrame(refId)
+                    stopped = true
+                }
+
+            }
 
             function init() {
                 THREE.VertexNormalsHelper = VertexNormalsHelper
@@ -96,8 +209,8 @@ function FitnessGame() {
                 const container = document.getElementById('container');
 
                 camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-                camera.position.set(1, 5, - 3);
-                camera.lookAt(0, 1, 0);
+                camera.position.set(0, 5, 1);
+                camera.lookAt(0, 100, 0);
 
                 const texture = new THREE.TextureLoader().load("/starsHD.jpg");
                 texture.wrapS = THREE.RepeatWrapping;
@@ -105,6 +218,7 @@ function FitnessGame() {
                 texture.repeat.set(4, 1);
 
                 clock = new THREE.Clock();
+                clock.getElapsedTime()
 
                 scene = new THREE.Scene();
                 const meshBack = new THREE.Mesh(new THREE.SphereGeometry(120, 64, 64), new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }));
@@ -129,8 +243,8 @@ function FitnessGame() {
                 scene.add(dirLight);
 
 
-                const normalTexture = new THREE.TextureLoader().load("/normalMap.png");
-                const mesh = new THREE.Mesh(new THREE.SphereGeometry(30, 128, 128), new THREE.MeshPhongMaterial({ color: 0xcb9766, normalMap: normalTexture }));
+                const normalTexture = new THREE.TextureLoader().load("/NormalMap1.png");
+                const mesh = new THREE.Mesh(new THREE.SphereGeometry(30, 128, 128), new THREE.MeshStandardMaterial({ color: 0xcb9766, normalMap: normalTexture }));
                 mesh.translateY(-30)
                 mesh.rotation.x = - Math.PI / 2;
                 mesh.receiveShadow = true;
@@ -159,14 +273,18 @@ function FitnessGame() {
                     window.scene = scene
                     window.skeleton = skeleton
                     window.myModel = model
+                    window.camera = camera
 
 
-                    skeleton.visible = true;
+                    // skeleton.visible = true;
                     scene.add(skeleton);
                     rightArm = skeleton.bones[24]
                     rightForeArm = skeleton.bones[25]
                     leftArm = skeleton.bones[7]
                     leftForeArm = skeleton.bones[8]
+
+                    leftFin = scene.getObjectByName('mixamorigLeftHandIndex2')
+                    rightFin = scene.getObjectByName('mixamorigRightHandIndex2')
                     animate();
 
                 });
@@ -180,12 +298,14 @@ function FitnessGame() {
                 renderer.shadowMap.enabled = true;
                 container.appendChild(renderer.domElement);
 
+                // spawner = setInterval(() => {
+                //     spawnObjstacles()
+                // }, 5000);
+                spawner = new IntervalTimer(spawnObjstacles, 5000)
+
                 controls = new OrbitControls(camera, renderer.domElement);
                 controls.update()
             }
-
-            const resetRotation = () =>
-                [7, 8, 24, 25].map(e => skeleton.bones[e].setRotationFromEuler(new THREE.Euler(0, 0, 0)))
 
             const reverseUp = (bone) => {
                 bone.up.x = -bone.up.x
@@ -194,7 +314,8 @@ function FitnessGame() {
             }
 
             async function animate() {
-                pose = await detector.getPoseKeypoints();
+                pose = await detector.estimatePoses(video)
+                // pose = await detector.getPoseKeypoints();
                 vs = pose2D.armVectors(pose[0], lengths);
 
                 if (pose[0] && vs) {
@@ -202,13 +323,13 @@ function FitnessGame() {
                     lk = up.clone().cross(vs.rightArm.clone());
                     rightArm.up = vs.rightArm
                     reverseUp(rightArm)
-                    rightArm.lookAt(lk.clone().multiplyScalar(100))
+                    rightArm.lookAt(lk.clone().multiplyScalar(-100))
 
 
                     lk = up.clone().cross(vs.rightForeArm.clone());
                     rightForeArm.up = vs.rightForeArm
                     reverseUp(rightForeArm)
-                    rightForeArm.lookAt(lk.clone().multiplyScalar(100))
+                    rightForeArm.lookAt(lk.clone().multiplyScalar(-100))
 
 
                     up = vs.leftArm.clone().cross(vs.leftForeArm.clone());
@@ -224,29 +345,21 @@ function FitnessGame() {
                     leftForeArm.lookAt(lk.clone().multiplyScalar(100))
                 }
 
-
-                // // console.log(angles)
-                // if (angles && skeleton) {
-                //     resetRotation();
-                //     skeleton.bones[7].rotation.x = angles.left.arm.phi
-                //     skeleton.bones[7].rotation.z = angles.left.arm.theta
-
-                //     skeleton.bones[8].rotation.x = (angles.left.foreArm.phi - skeleton.bones[7].rotation.x)
-                //     skeleton.bones[8].rotation.z = -(angles.left.foreArm.theta - skeleton.bones[7].rotation.z)
-
-                //     skeleton.bones[24].rotation.x = angles.right.arm.phi
-                //     skeleton.bones[24].rotation.z = -angles.right.arm.theta
-
-                //     skeleton.bones[25].rotation.x = -(angles.right.foreArm.phi - skeleton.bones[24].rotation.x)
-                //     skeleton.bones[25].rotation.z = (angles.right.foreArm.theta - skeleton.bones[24].rotation.z)
-                // }
                 arrowHelper.setDirection(skeleton.bones[24].getWorldDirection(new THREE.Vector3()))
+
+                if (!stopped) {
+                    updateObstacles()
+                    checkCollision()
+                }
+                // camera.rotation.z += 10
                 controls.update()
                 renderer.render(scene, camera);
-                requestAnimationFrame(animate);
+                refId = requestAnimationFrame(animate);
+                window.refId = refId
             }
         })()
-    });
+    }, []);
+
     return (
         <>
             <Head>
@@ -281,17 +394,30 @@ function FitnessGame() {
                     }
                 </style>
             </Head>
-            {/* <video id="video"
+            <video id="video"
                 playsInline loop autoPlay>
-            </video> */}
-            <div className="canvas-wrapper" ref={canvasContainer}>
+            </video>
+            {/* <div className="canvas-wrapper" ref={canvasContainer}>
                 <canvas id="output" ref={canvasRef} ></canvas>
                 <video id="video"
                     ref={videoRef} playsInline loop autoPlay
                     className={styles.videoElement}>
                 </video>
             </div>
-            <h1 id="info">hello</h1>
+            <h1 id="info">hello</h1> */}
+            <div ref={gameOverRef} style={{
+                position: "absolute",
+                paddingTop: "20%",
+                pointerEvents: "none",
+                top: "0px",
+                fontSize: "3rem",
+                textAlign: "center",
+                width: "100%",
+                height: "100%",
+                background: "#00000080",
+                visibility: "hidden"
+            }}>GameOver !<br/><p>press spacebar to continue</p></div>
+
             <div id="container"></div>
         </>
     )
