@@ -3,7 +3,7 @@ import { Camera, IdealVideo, poseDetector} from '../../../Utils';
 import VideoPoseMatcher from '../../../Utils/PoseMatcher/Exercise'
 import curlChecker from '../../../Utils/PoseMatcher/Exercise/curl'
 import { useEffect, useRef } from 'react';
-import styles from '../../../Styles/HomePage.module.css'
+import styles from '../../../Styles/HomePage.module.scss'
 
 function HomePage() {
     const [
