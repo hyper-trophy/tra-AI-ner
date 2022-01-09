@@ -1,7 +1,7 @@
 {
     "theme_color": "#f69435",
     "background_color": "#f69435",
-    "display": "browser",
+    "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Fitify",
@@ -26,6 +26,11 @@
         {
             "src": "/icon-512x512.png",
             "sizes": "512x512",
+            "type": "image/png"
+        }
+        ,{
+            "src": "/icon.jpg",
+            "sizes": "1280x720",
             "type": "image/png"
         }
     ]

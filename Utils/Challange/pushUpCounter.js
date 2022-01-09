@@ -3,7 +3,6 @@ import anglesMeasure from "../anglesMeasure"
 class PushUpCounter  {
     constructor(detector2, counterRef) {
         this.userDetector = detector2
-        this.checker = checker
         this.startCounting = this.startCounting.bind(this)
         this.counterRef = counterRef
         this.partialRep = false
@@ -22,7 +21,7 @@ class PushUpCounter  {
                     this.partialRep = true
                 if(this.partialRep && (elbowAngle > 150 && elbowAngle < 200)){
                     this.repCount+=1
-                    this.counterRef.current.innerText = this.repCount
+                    this.counterRef.current.innerText = `Reps: ${this.repCount}`
                     this.partialRep = false
                 }
                 this.userDetector.camera.drawResults(userPoses, true);
