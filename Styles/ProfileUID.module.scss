@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap');
+
+.profileContainer{
+        text-align: center;
+        display: block;
+        justify-content: center;
+img {
+    max-width: 100%;
+    display: block;
+  }
+  ul {
+    list-style: none;
+  }
+  
+  /* Utilities */
+  .card::after,
+  .card img {
+    border-radius: 50%;
+  }
+  body,
+  .card,
+  .stats {
+    display: flex;
+  }
+  
+  .card {
+    padding: 2.5rem 2rem;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, .5);
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+    margin: 1rem auto;
+    position: relative;
+    transform-style: preserve-3d;
+    overflow: hidden;
+  }
+  .card::before,
+  .card::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+  }
+  .card::before {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    top: -.7rem;
+    left: -.7rem;
+  }
+  .card::after {
+    height: 15rem;
+    width: 15rem;
+    background-color: #4172f5aa;
+    top: -8rem;
+    right: -8rem;
+    box-shadow: 2rem 6rem 0 -3rem #FFF
+  }
+  
+  .card img {
+    width: 8rem;
+    min-width: 80px;
+    box-shadow: 0 0 0 5px #FFF;
+  }
+  
+  .infos {
+    margin-left: 1.5rem;
+  }
+  
+  .name {
+    margin-bottom: 1rem;
+  }
+  .name h2 {
+    font-size: 1.3rem;
+  }
+  .name h4 {
+    font-size: .8rem;
+    color: #333
+  }
+  
+  .text {
+    font-size: .9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .stats {
+    margin-bottom: 1rem;
+  }
+  .stats li {
+    min-width: 5rem;
+  }
+  .stats li h3 {
+    font-size: .99rem;
+  }
+  .stats li h4 {
+    font-size: .75rem;
+  }
+  
+  .links button {
+    font-family: 'Poppins', sans-serif;
+    min-width: 120px;
+    padding: .5rem;
+    border: 1px solid #222;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .25s linear;
+  }
+  .links .follow,
+  .links .view:hover {
+    background-color: #222;
+    color: #FFF;
+  }
+  .links .view,
+  .links .follow:hover{
+    background-color: transparent;
+    color: #222;
+  }
+  
+  @media screen and (max-width: 450px) {
+    .card {
+      display: block;
+    }
+    .infos {
+      margin-left: 0;
+      margin-top: 1.5rem;
+    }
+    .links button {
+      min-width: 100px;
+    }
+  }
+
+
+
+
+
+  /* Article - https://bitsofco.de/github-contribution-graph-css-grid/ */
+
+/* Grid-related CSS */
+
+:root {
+    --square-size: 15px;
+    --square-gap: 5px;
+    --week-width: calc(var(--square-size) + var(--square-gap));
+  }
+  
+  .months { grid-area: months; }
+  .days { grid-area: days; }
+  .squares { grid-area: squares; }
+  
+  .graph {
+    display: inline-grid;
+    grid-template-areas: "empty months"
+                         "days squares";
+    grid-template-columns: auto 1fr;
+    grid-gap: 10px;
+  }
+  
+  .months {
+    display: grid;
+    grid-template-columns: calc(var(--week-width) * 4) /* Jan */
+                           calc(var(--week-width) * 4) /* Feb */
+                           calc(var(--week-width) * 4) /* Mar */
+                           calc(var(--week-width) * 5) /* Apr */
+                           calc(var(--week-width) * 4) /* May */
+                           calc(var(--week-width) * 4) /* Jun */
+                           calc(var(--week-width) * 5) /* Jul */
+                           calc(var(--week-width) * 4) /* Aug */
+                           calc(var(--week-width) * 4) /* Sep */
+                           calc(var(--week-width) * 5) /* Oct */
+                           calc(var(--week-width) * 4) /* Nov */
+                           calc(var(--week-width) * 5) /* Dec */;
+  }
+  
+  .days,
+  .squares {
+    display: grid;
+    grid-gap: var(--square-gap);
+    grid-template-rows: repeat(7, var(--square-size));
+  }
+  
+  .squares {
+    grid-auto-flow: column;
+    grid-auto-columns: var(--square-size);
+  }
+  
+  
+  /* Other styling */
+  
+  
+  .graph {
+    padding: 20px;
+    border: 1px #e1e4e8 solid;
+    margin: 20px;
+  }
+  
+  .days li:nth-child(odd) {
+    visibility: hidden;
+  }
+  
+  .squares li {
+    background-color: #ebedf0;
+  }
+  
+  .squares li[data-level="1"] {
+    background-color: #c6e48b;
+  }
+  
+  .squares li[data-level="2"] {
+    background-color: #7bc96f;
+  }
+  
+  .squares li[data-level="3"] {
+    background-color: #196127;
+  }
+  
+}
