@@ -4305,6 +4305,11 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
+memoize-one@^5.0.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
+  integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -4868,6 +4873,14 @@ raw-body@2.4.1:
     http-errors "1.7.3"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+react-calendar-heatmap@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/react-calendar-heatmap/-/react-calendar-heatmap-1.8.1.tgz#8370151f6cf7477d49cb3459596d6d046bdfc704"
+  integrity sha512-4Hbq/pDMJoCPzZnyIWFfHgokLlLXzKyGsDcMgNhYpi7zcKHcvsK9soLEPvhW2dBBqgDrQOSp/uG4wtifaDg4eQ==
+  dependencies:
+    memoize-one "^5.0.0"
+    prop-types "^15.6.2"
 
 react-dom@17.0.2:
   version "17.0.2"

@@ -43,12 +43,8 @@ const Navbar = ()=>{
                 <li>
                     <Link href="/yoga">yoga</Link>
                 </li>
-                <li>
-                    <Link href="/timer">timer</Link>
-                </li>
                 <li><Link href="/music">music</Link></li>
-                <li><Link href="/notepad">notepad</Link></li>
-                <li> {contextValue.appState.isLoggedIn == true ? <Link href="/profile">{contextValue.appState.userState.email.split("@")[0]}</Link> : <Link href="/login">Log In</Link> }  </li>
+                <li> {contextValue.appState.isLoggedIn == true ? <Link href={ "/profile/" + contextValue.appState.userState.uid}>{contextValue.appState.userState.email.split("@")[0]}</Link> : <Link href="/login">Log In</Link> }  </li>
                 {contextValue.appState.isLoggedIn == true ? <li onClick={()=>{
                     contextValue.appState.userLogout()
                 }}>Logout</li> : "" }
