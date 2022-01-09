@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Ubuntu;
+    color: #fff;
+    font-weight: 800;
+    animation: background-animation 120s infinite;
+	animation-timing-function: linear;
+
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+::-webkit-scrollbar:vertical {
+    width: 6px;
+}
+::-webkit-scrollbar:horizontal {
+    height: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 10px;
+    border: 0px solid #ffffff;
+	cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    border: 0px solid #ffffff;
+}
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #ffffff00;
+}
+
+@keyframes background-animation {
+	0%{
+		background: #06b3db;
+	}
+	10%{
+		background: #f44336;
+	}
+	20%{
+		background: #673ab7;
+	}
+	30%{
+		background: #009688;
+	}
+	40%{
+		background: #ffc107;
+	}
+	50%{
+		background: #f44336;
+	}
+	60%{
+		background: #ff5722;
+	}
+	70%{
+		background: #795548;
+	}
+	80%{
+		background: #607d8b;
+	}
+	90%{
+		background: #673ab7;
+	}
+	100%{
+		background: #158da8;
+	}
+}
+/* adf */
