@@ -82,7 +82,7 @@ function HomePage() {
                     id="combo-box-demo"
                     options={plans}
                     sx={{ width: 250}}
-                    renderInput={(params) => <TextField {...params} label="Plans" />}
+                    renderInput={(params) => <TextField {...params} label="Choose" />}
                     />
                     </Grid>
                     <Grid item xs={4}>

@@ -44,7 +44,7 @@ function HomePage() {
     }, []);
 
     return <div>
-        Something fucking awesome comming soon !
+        bicep curls !
         <br />
             <div className="canvas-wrapper-ideal" ref={canvasContainerIdeal}>
                 <canvas id="output-ideal" ref={canvasRefIdeal} ></canvas>

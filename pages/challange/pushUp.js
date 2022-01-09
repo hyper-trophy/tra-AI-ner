@@ -44,7 +44,6 @@ function HomePage() {
         counterRef
     ] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
     const time = new Date()
-    const pushUpCounter
     time.setSeconds(time.getSeconds() + 30); // 10 minutes time
 
     useEffect(() => {
