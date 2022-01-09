@@ -4,7 +4,7 @@ import asanMatcher from '../../../Utils/PoseMatcher/YogaAsan/asanChecker'
 // import curlChecker from '../../../Utils/PoseMatcher/Exercise/curl'
 import { useEffect, useRef } from 'react';
 import Image from 'next/image'
-import styles from '../../../Styles/HomePage.module.scss'
+import styles from '../../../styles/HomePage.module.scss'
 
 function HomePage() {
     const [

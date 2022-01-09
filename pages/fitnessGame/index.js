@@ -9,7 +9,7 @@ import anglesMeasure from '../../Utils/anglesMeasure'
 import Head from 'next/head'
 import { useEffect, useRef } from 'react'
 import pose2D from '../../Utils/pose2DtoAngle'
-import styles from '../../Styles/HomePage.module.scss'
+import styles from '../../styles/HomePage.module.scss'
 import { Camera, poseDetector } from '../../Utils';
 
 function FitnessGame() {
