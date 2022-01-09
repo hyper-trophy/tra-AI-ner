@@ -20,7 +20,7 @@ class MusicPlayer extends React.Component{
             <div className={styles["player-main-container"]}>
                 <div className={styles["player-title"]}>
 
-                    <marquee>Circular Box Shadow CSS</marquee>
+                    <marquee>Music 1</marquee>
                 </div>                
                 <audio src={"https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Creative_Commons/Comfort_Fit/Forget_And_Remember/Comfort_Fit_-_03_-_Sorry.mp3?download=1&name=Comfort%20Fit%20-%20Sorry.mp3"} controls />
 {/* 

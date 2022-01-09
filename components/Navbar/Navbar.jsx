@@ -30,7 +30,7 @@ const Navbar = ()=>{
 
     return <div className={styles["navbar-container"]}>
         <div className={styles["navbar-brand"]}>
-            <Link href="/">workout</Link>
+            <Link href="/">HealthifyAtHome</Link>
         </div>
         <div className={styles["navbar-music-player"]}>
             <MusicPlayer />
