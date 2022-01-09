@@ -1,6 +1,6 @@
 import { Camera, poseDetector } from '../../Utils';
 import { useEffect, useRef } from 'react';
-import styles from '../../Styles/HomePage.module.scss'
+import styles from '../../styles/HomePage.module.scss'
 import PushUpCounter from '../../Utils/Challange/pushUpCounter';
 import { useTimer } from 'react-timer-hook';
 
